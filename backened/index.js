@@ -1,4 +1,5 @@
 import express from "express"
+
 import dotenv from "dotenv"
 import connectDb from "./utils/connectDb.js"
 import authRouter from "./routes/auth.route.js"
@@ -16,13 +17,16 @@ app.post(
   express.raw({ type: "application/json" }),
   stripeWebhook
 );
-app.use((req, res, next) => {
-  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
-  next();
-});
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  // remove secure:false — that's not a valid cors option
+}))
 app.use(cors(
-    {origin:"http://localhost:5173",
+    {origin:process.env.CLIENT_URL,
         credentials:true,
+        secure: false,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     }
 ))
@@ -31,6 +35,7 @@ app.use(cookieParser())
 const PORT = process.env.PORT || 5000
 app.get("/",(req,res)=>{
     res.json({message:"ExamNotes AI Backend Running 🚀"})
+    console.log("Cookies:", req.cookies);
 
 })
 app.use("/api/auth" , authRouter)

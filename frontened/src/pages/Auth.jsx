@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { motion } from "motion/react"
 import { FcGoogle } from "react-icons/fc";
-import { signInWithPopup } from 'firebase/auth';
+//import { signInWithPopup, getRedirectResult } from 'firebase/auth';
+import { signInWithRedirect, getRedirectResult } from 'firebase/auth';
 import { auth, provider } from '../utils/firebase';
 import axios from "axios"
 import { serverUrl } from '../App';
@@ -10,21 +11,23 @@ import { setUserData } from '../redux/userSlice';
 function Auth() {
   const dispatch = useDispatch()
 
-  const handleGoogleAuth = async () => {
-    
-    try {
-      const response = await signInWithPopup(auth,provider)
-      const User = response.user
-      const name = User.displayName
-      const email = User.email
-      const result = await axios.post(serverUrl + "/api/auth/google" , {name , email},{
-        withCredentials:true
-      })
-      dispatch(setUserData(result.data))
-    } catch (error) {
-      console.log(error)
-    }
+  // Handle any leftover redirect result on mount
+  useEffect(() => {
+    getRedirectResult(auth).then(async (result) => {
+      if (!result) return;
+      const { displayName: name, email } = result.user;
+      const res = await axios.post(serverUrl + "/api/auth/google", { name, email }, { withCredentials: true });
+      dispatch(setUserData(res.data));
+    }).catch(console.error);
+  }, []);
+
+ const handleGoogleAuth = async () => {
+  try {
+    await signInWithRedirect(auth, provider); // no popup, no COOP issues
+  } catch (error) {
+    console.error("Auth error:", error.message);
   }
+};
   return (
     <div className='min-h-screen overflow-hidden bg-white text-black px-8'>
         <motion.header 
