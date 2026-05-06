@@ -1,11 +1,11 @@
-import jwt from "jsonwebtoken"
-
-
 const isAuth = async (req, res, next) => {
   try {
-    // Read from cookie OR Authorization header
     const token = req.cookies.token || req.headers.authorization?.split(" ")[1]
     
+    console.log("🔑 Token received:", token ? "YES" : "NO")
+    console.log("🍪 Cookies:", req.cookies)
+    console.log("📋 Auth header:", req.headers.authorization)
+
     if (!token) {
       return res.status(400).json({ message: "Token is not found" })
     }
@@ -16,6 +16,7 @@ const isAuth = async (req, res, next) => {
     req.userId = verifyToken.userId
     next()
   } catch (error) {
+    console.log("❌ isAuth error:", error.message)
     return res.status(500).json({ message: `is auth error ${error}` })
   }
 }
