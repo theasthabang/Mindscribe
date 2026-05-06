@@ -20,6 +20,8 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
       return;
     }
     setError("");
+    setProgress(0);       
+  setProgressText("");  
     setLoading(true);
     setResult(null);
     try {
@@ -52,8 +54,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
 
   useEffect(() => {
     if (!loading) {
-      setProgress(0);
-      setProgressText("");
+      
       return;
     }
     let value = 0;
