@@ -31,8 +31,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         includeDiagram,
         includeChart,
       });
-
-      setResult(result); // was result.data ❌
+      setResult(result.data); // ← result.data = actual AI notes object
       setLoading(false);
       setClassLevel("");
       setTopic("");
@@ -44,11 +43,10 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
       if (typeof result.creditsLeft === "number") {
         dispatch(updateCredits(result.creditsLeft));
       }
-    }  catch (error) {
-    console.log("Server said:", error?.response?.data) // will show exact backend error
-    setError("Failed to fetch notes from server")
-    setLoading(false)
-
+    } catch (error) {
+      console.log("Server said:", error?.response?.data); // will show exact backend error
+      setError("Failed to fetch notes from server");
+      setLoading(false);
     }
   };
 

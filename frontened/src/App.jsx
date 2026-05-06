@@ -10,7 +10,7 @@ import Pricing from './pages/Pricing'
 import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailed from './pages/PaymentFailed'
 export const serverUrl = import.meta.env.DEV 
-  ? ""   // empty = uses Vite proxy → same origin → cookies work ✅
+  ? ""  
   : "https://mindscribeserver.onrender.com"
 
 function App() {

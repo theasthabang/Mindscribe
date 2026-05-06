@@ -17,19 +17,13 @@ app.post(
   express.raw({ type: "application/json" }),
   stripeWebhook
 );
+// Sirf yeh rakho, doosra wala hata do ✅
 app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-  // remove secure:false — that's not a valid cors option
 }))
-app.use(cors(
-    {origin:process.env.CLIENT_URL,
-        credentials:true,
-        secure: false,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-    }
-))
+
 app.use(express.json())
 app.use(cookieParser())
 const PORT = process.env.PORT || 5000
