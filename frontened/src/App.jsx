@@ -10,8 +10,8 @@ import Pricing from './pages/Pricing'
 import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailed from './pages/PaymentFailed'
 export const serverUrl = import.meta.env.DEV 
-  ? ""  
-  : "https://mindscribeserver.onrender.com"
+  ? "http://localhost:8000"  
+  : "https://mindscribe-3rzt.onrender.com"
 
 function App() {
   const dispatch = useDispatch()
