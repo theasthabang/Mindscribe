@@ -27,14 +27,16 @@ function Auth() {
           { withCredentials: true },
         );
         console.log("Backend response:", res.data);
-        dispatch(setUserData(res.data));
+        
+        localStorage.setItem("token", res.data.token);
+        dispatch(setUserData(res.data.user));
       })
       .catch(console.error);
   }, []);
 
   const handleGoogleAuth = async () => {
     try {
-      const result = await signInWithPopup(auth, provider); // ← redirect → popup
+      const result = await signInWithPopup(auth, provider);
       const name = result.user.displayName;
       const email = result.user.email;
       const res = await axios.post(
@@ -42,7 +44,9 @@ function Auth() {
         { name, email },
         { withCredentials: true },
       );
-      dispatch(setUserData(res.data));
+      // Save token to localStorage
+      localStorage.setItem("token", res.data.token);
+      dispatch(setUserData(res.data.user)); // ← now res.data.user
     } catch (error) {
       console.error("Auth error:", error.message);
     }
