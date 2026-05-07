@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 const notesSchema = new mongoose.Schema({
      user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "UserModel",
-      required: true
-    },
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User",  // ← was "UserModel"
+  required: true
+},
 
     topic: {
       type: String,
