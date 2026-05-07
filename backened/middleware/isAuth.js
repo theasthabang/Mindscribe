@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken"
 const isAuth = async (req, res, next) => {
   try {
     const token = req.cookies.token || req.headers.authorization?.split(" ")[1]
@@ -17,7 +18,7 @@ const isAuth = async (req, res, next) => {
     next()
   } catch (error) {
     console.log("❌ isAuth error:", error.message)
-    return res.status(500).json({ message: `is auth error ${error}` })
+    return res.status(500).json({ message: `is auth *9error ${error}` })
   }
 }
 export default isAuth
