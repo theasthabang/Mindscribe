@@ -3,7 +3,8 @@ import { serverUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
 
 
-const getAuthHeader = () => ({
+// api.js — add export
+export const getAuthHeader = () => ({
   headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
 });
 
@@ -33,7 +34,7 @@ export const downloadPdf = async (result) => {
     const response = await axios.post(
       serverUrl + "/api/pdf/generate-pdf",
       { result },
-      { ...getAuthHeader(), responseType: "blob", withCredentials: true }
+      { ...getAuthHeader(), responseType :"blob", withCredentials: true }
     );
     const blob = new Blob([response.data], { type: "application/pdf" });
     const url = window.URL.createObjectURL(blob);
