@@ -8,6 +8,14 @@ export const googleAuth = async (req, res) => {
     if (!user) {
       user = await UserModel.create({ name, email });
     }
+    else {
+      // Patch existing users who were created before credits field existed
+      if (user.credits === undefined || user.credits === null) {
+        user.credits = 100;
+        user.isCreditAvailable = true;
+        await user.save();
+      }
+      }
     let token = await getToken(user._id);
     
     // Keep cookie for local dev
